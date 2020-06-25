@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+
+
+
+    <item android:id="@+id/action_add"
+            android:title="친추"
+android:icon="@drawable/addfri"
+            app:showAsAction="always" />
+
+    <item android:id="@+id/action_find"
+        android:title="검색"
+android:icon="@drawable/find"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "67935823463",
+    "firebase_url": "https://gamacall-f08eb.firebaseio.com",
+    "project_id": "gamacall-f08eb",
+    "storage_bucket": "gamacall-f08eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67935823463:android:8a4e2cd8ce1fac2e4d56c2",
+        "android_client_info": {
+          "package_name": "com.example.gamecall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67935823463-hlfj1ar3eqocar1ld9a964h5km5c80r3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gamecall",
+            "certificate_hash": "c346eade85b7627f5a0d6f21e17a7cc8dada19e0"
+          }
+        },
+        {
+          "client_id": "67935823463-2untg73ckqc3nfnt7vfvtd7qkr7s2r5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLhbvOIT7EevDU6OJEbF04xmzua9s9Zto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67935823463-2untg73ckqc3nfnt7vfvtd7qkr7s2r5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

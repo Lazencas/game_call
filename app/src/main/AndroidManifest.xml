@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.gamecall">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label=""
+        android:logo="@drawable/newic_launcher_background"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <service
+            android:name=".ExampleService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity
+            android:name=".TabActivity"
+            android:label="@string/title_activity_tab" />
+        <activity android:name=".login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".newaccount"
+            android:label="" />
+        <activity
+            android:name=".findidpw"
+            android:label="" />
+        <activity
+            android:name=".MainActivity"
+            android:label="" />
+        <activity
+            android:name=".option"
+            android:label="" />
+        <activity
+            android:name=".deleteid"
+            android:label="" />
+        <activity
+            android:name=".newfriend"
+            android:label="" />
+        <activity
+            android:name=".changepw"
+            android:label="" />
+        <activity
+            android:name=".talk"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:label="" />
+        <activity
+            android:name=".profile"
+            android:label="" />
+        <activity
+            android:name=".notifyoption"
+            android:label="" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.gamecall.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>

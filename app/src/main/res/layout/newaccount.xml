@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="회원가입"
+        android:textSize="40dp"
+        android:padding="45dp"
+        android:layout_gravity="center"/>
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+           android:gravity="left"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="이 메 일"
+            android:textSize="18dp"
+            android:layout_weight="30"
+            ></TextView>
+        <EditText
+            android:singleLine="true"
+            android:hint="* 아이디로 사용할 유효한 이메일"
+            android:id="@+id/emailvalue"
+            android:layout_weight="70"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+
+
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+    <TextView
+        android:gravity="left"
+        android:layout_weight="30"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:text="비밀번호"
+        android:textSize="18dp"
+        ></TextView>
+    <EditText
+        android:singleLine="true"
+        android:layout_weight="70"
+        android:hint="     6자 이상"
+        android:password="true"
+        android:id="@+id/pwvalue"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content">
+
+    </EditText>
+
+
+
+</LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_weight="30"
+            android:text="비밀번호확인"
+            android:textSize="18dp"></TextView>
+        <EditText
+            android:singleLine="true"
+            android:layout_weight="70"
+            android:hint="     6자 이상"
+            android:password="true"
+            android:id="@+id/pwvaluecheck"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+
+        <Button
+            android:id="@+id/sendemailBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="이메일로 인증코드 보내기"></Button>
+
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인증코드"
+            android:textSize="15dp"
+            ></TextView>
+        <EditText
+            android:singleLine="true"
+            android:id="@+id/emailauth"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            >
+
+        </EditText>
+
+        <Button
+            android:id="@+id/authcheckBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인"></Button>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+
+            android:id="@+id/signupBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="가입">
+
+        </Button>
+
+        <Button
+            android:id="@+id/signupcancelBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="취소">
+
+        </Button>
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/prognew"
+        android:visibility="gone"
+        android:layout_gravity="center">
+
+    </ProgressBar>
+
+</LinearLayout>
