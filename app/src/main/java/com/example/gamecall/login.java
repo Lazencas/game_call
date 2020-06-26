@@ -39,6 +39,7 @@ public class login extends AppCompatActivity {
     String aemail="";
     String email;
     EditText idemail;
+    int emo1=0, emo2=0,emo3=0;
     EditText idvalue, pwvalue;
     InputMethodManager imm;
     int autoauto =0;
@@ -52,8 +53,6 @@ public class login extends AppCompatActivity {
        // getSupportActionBar().setTitle("ACTIONBAR");
         //액션바 배경색 변경
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
-
-
 
 
 
@@ -218,6 +217,7 @@ public void login(){
 
                                 SharedPreferences sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
+
                                 editor.putString("email", email);
                                 editor.putString("pw", password);
                                 editor.commit();
