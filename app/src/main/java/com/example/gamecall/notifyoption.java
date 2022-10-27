@@ -66,19 +66,28 @@ public class notifyoption extends AppCompatActivity {
 //        Toast.makeText(notifyoption.this, "알림켜짐!",
 //                Toast.LENGTH_LONG).show();
 
+
+
         SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("mesnotify");
         editor.putInt("mesnotify", 1);
+
         editor.commit();
 
+        Intent intent = new Intent(this, ExampleService.class);
+
+        startService(intent);
 
     }
 
 
     public void stopServicea() {
-        Toast.makeText(notifyoption.this, "알림꺼짐!",
-                Toast.LENGTH_LONG).show();
+//        Toast.makeText(notifyoption.this, "알림꺼짐!",
+//                Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ExampleService.class);
+
+        stopService(intent);
 
         SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();

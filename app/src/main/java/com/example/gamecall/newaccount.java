@@ -184,14 +184,26 @@ public int kire = 1;
 
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         //성공했을때
+                                        user.updateEmail(email)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+//                                                            Log.d(TAG, "User email address updated.");
+                                                        }
+                                                    }
+                                                });
+
 
                                         SharedPreferences sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         editor.putString("tempoid", email);
                                         editor.commit();
 
+
                                         String emailsend = ((EditText)findViewById(R.id.emailvalue)).getText().toString();
                                         DatabaseReference myRef = database.getReference("users").child(user.getUid());
+//                                        DatabaseReference myRef = database.getReference("users");
 
                                         Hashtable<String, String> numbers
                                                 = new Hashtable<String, String>();

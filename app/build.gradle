@@ -38,11 +38,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-core:17.4.3'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    // implementation files('libs/javax.mail.jar')
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
     implementation "gun0912.ted:tedpermission:2.1.0"
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

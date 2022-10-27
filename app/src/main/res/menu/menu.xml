@@ -6,7 +6,6 @@
 
 
 
-
     <item android:id="@+id/action_add"
             android:title="친추"
 android:icon="@drawable/addfri"

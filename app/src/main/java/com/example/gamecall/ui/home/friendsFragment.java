@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,11 +32,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gamecall.Chat;
 import com.example.gamecall.CustomAdapter;
 import com.example.gamecall.Dictionary;
+import com.example.gamecall.ExampleService;
 import com.example.gamecall.User;
 import com.example.gamecall.MyAdapter;
 import com.example.gamecall.R;
+import com.example.gamecall.addfriend;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +61,9 @@ public class friendsFragment extends Fragment {
     MyAdapter mAdapter;
     String name;
     private RecyclerView.LayoutManager layoutManager;
+    String loadname, loadgame;
+    TextView nicname, game;
+    int notify;
     String email;
     public  ArrayList<Chat> friendList;
     private HomeViewModel homeViewModel;
@@ -105,25 +112,30 @@ public class friendsFragment extends Fragment {
         profile = stringbitmap(profileimg);
         mainimg = root.findViewById(R.id.mainimage);
         mainimg.setImageBitmap(profile);
+
+
+        nicname = (TextView)root.findViewById(R.id.mainname);
+        game = (TextView)root.findViewById(R.id.game);
+        loadname=sharedPref.getString("nicname", "기본이름");
+        loadgame= sharedPref.getString("game","기본게임");
+        nicname.setText(loadname);
+        game.setText(loadgame);
+        email = sharedPref.getString("email", "");
+
+        notify = sharedPref.getInt("mesnotify", 0);
+
+//        if(notify==1){
+//
+//            getActivity().startService(new Intent(getActivity(), ExampleService.class));
+//        }
+
+
+
+
+
+
 //데베
-        DatabaseReference ref = database.getReference("users");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "잘가져오는지확인 : "+dataSnapshot.getValue().toString());
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                     User user = dataSnapshot1.getValue(User.class);
-                    Log.d(TAG, "잘가져오는지확인 : "+user.getEmail());
 
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
 //친구목록리사이클러
@@ -134,14 +146,43 @@ public class friendsFragment extends Fragment {
 
         mArrayList = new ArrayList<>();
 
+
         // kAdapter = new CustomAdapter( mArrayList);
-        kAdapter = new CustomAdapter(getActivity(), mArrayList);
+        kAdapter = new CustomAdapter(getActivity(), mArrayList, email);
         mRecyclerView.setAdapter(kAdapter);
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        DatabaseReference myRef = database.getReference("users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Log.d(TAG, "가져오는지체크합니다 "+dataSnapshot.getValue().toString());
+
+                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+
+                    Dictionary dic  = dataSnapshot1.getValue(Dictionary.class);
+//                    Log.d(TAG, "가져오는지체크합니다 "+dic.getName());
+//                    Log.d(TAG, "가져오는지체크합니다 "+dic.getGame());
+//                    Log.d(TAG, "가져오는지체크합니다 "+dic.getEmail());
+                    mArrayList.add(dic);
+
+                }
+                kAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
 /*
@@ -235,20 +276,20 @@ public class friendsFragment extends Fragment {
         super.onCreateOptionsMenu(menu,inflater);
         inflater.inflate(R.menu.menu,menu);
     }
-    /*
+
+
 //메뉴선택시 이벤트
 @Override public boolean onOptionsItemSelected(MenuItem item) {
         int curId = item.getItemId();
-    switch (curId){
-        case tab1: //tab1 메뉴 아이콘 선택시 이벤트 설정
-             break;
-             default:
-                 break;
+    if(curId==R.id.action_add){
+        Intent intent = new Intent(getActivity(), addfriend.class);
+        startActivity(intent);
+        return true;
     }
     return super.onOptionsItemSelected(item);
 }
 
-*/
+
 
 
 

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    >
+
+    <!--    <TextView-->
+    <!--        android:padding="45dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:id="@+id/textView1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="프로필설정"-->
+    <!--        android:textSize="40dp" />-->
+    <ImageView
+        android:id="@+id/otherprofileIMG"
+        android:layout_margin="40dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:background="#eee"
+    ></ImageView>
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="이메일 : "
+            android:textSize="30dp"
+            ></TextView>
+        <TextView
+            android:id="@+id/otheremail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일"
+            android:textSize="25dp"
+            ></TextView>
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="닉네임:"
+            android:textSize="30dp"
+            ></TextView>
+        <TextView
+            android:text="닉네임"
+            android:textSize="25dp"
+            android:id="@+id/othernicname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="게 임 :"
+            android:textSize="30dp"
+            ></TextView>
+        <TextView
+            android:text="게임"
+            android:id="@+id/othergame"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/modiBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="대화하기">
+
+        </Button>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

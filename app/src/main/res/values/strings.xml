@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Game Call</string>
     <string name="title_activity_tab">TabActivity</string>
-    <string name="title_friends">친구목록</string>
+    <string name="title_friends">사용자목록</string>
     <string name="title_chats">대화목록</string>
     <string name="title_options">옵션</string>
 

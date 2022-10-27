@@ -45,7 +45,8 @@
 <!--    </LinearLayout>-->
 
     <LinearLayout
-        android:padding="13dp"
+        android:padding="15dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -85,7 +86,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="15dp"
-            android:text="친구목록"
+            android:text="사용자목록"
             android:textSize="30dp"></TextView>
 
 

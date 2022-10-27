@@ -94,7 +94,7 @@ String email;
         mArrayList = new ArrayList<>();
 
        // kAdapter = new CustomAdapter( mArrayList);
-        kAdapter = new CustomAdapter(this, mArrayList);
+        kAdapter = new CustomAdapter(this, mArrayList, email);
         mRecyclerView.setAdapter(kAdapter);
 
 

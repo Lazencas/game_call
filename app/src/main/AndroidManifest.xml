@@ -27,6 +27,15 @@
             android:enabled="true"
             android:exported="true"></service>
 
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".TabActivity"
             android:label="@string/title_activity_tab" />
@@ -70,17 +79,20 @@
         <activity
             android:name=".notifyoption"
             android:label="" />
+        <activity android:name=".addfriend"></activity>
+        <activity android:name=".otherprofile"></activity>
 
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.gamecall.provider"
+            android:authorities="com.example.gamecall"
             android:exported="false"
             android:grantUriPermissions="true">
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
+
         </provider>
 
     </application>

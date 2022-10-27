@@ -52,7 +52,8 @@
             android:background="@android:color/transparent"></EditText>
 
         <Button
-            android:id="@+id/button"
+            android:visibility="visible"
+            android:id="@+id/ebutton"
             android:layout_width="30dp"
             android:layout_height="30dp"
 
@@ -85,7 +86,7 @@
             android:id="@+id/camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사진"></Button>
+            android:text="카메라"></Button>
 
         <Button
             android:id="@+id/gall"
@@ -131,6 +132,58 @@
             app:layout_constraintStart_toStartOf="parent"></ImageView>
 
 
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/emoticon"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#4D000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="35dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/emot1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/emo1"
+               ></Button>
+
+            <Button
+                android:id="@+id/emot2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+               android:background="@drawable/emo2"
+                ></Button>
+
+            <Button
+                android:id="@+id/emot3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/emo3"
+                ></Button>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="16dp">
+
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

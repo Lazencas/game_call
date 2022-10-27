@@ -1,46 +1,76 @@
 package com.example.gamecall;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 public class Dictionary {
+    private String image;
+    private Bitmap fphoto;
+    private String name;
+    private String game;
+    private String email;
+    private String uid;
 
-    private String id;
-    private String English;
-    private String Korean;
+    public String getUid() {
+        return uid;
+    }
 
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
-    public String getId() {
-        return id;
+    public Bitmap getFphoto() {
+        this.fphoto = stringbitmap(image);
+        return fphoto;
+    }
+
+    public void setFphoto() {
+        this.fphoto = stringbitmap(image);
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGame() {
+        return game;
+    }
+
+    public void setGame(String game) {
+        this.game = game;
     }
 
     public String getEmail() {
-        return id;
+        return email;
     }
 
-
-
-    public void setId(String id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getEnglish() {
-        return English;
-    }
+    public Bitmap stringbitmap(String encodedString){
+        try{
+            byte[] encodedByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0, encodedByte.length);
+            return bitmap;
+        }catch (Exception e){
+            e.getMessage();
+            return null;
+        }
 
-    public void setEnglish(String english) {
-        English = english;
-    }
+    }//스트링비트맵
 
-    public String getKorean() {
-        return Korean;
-    }
-
-    public void setKorean(String korean) {
-        Korean = korean;
-    }
-
-
-    public Dictionary(String id, String english, String korean) {
-        this.id = id;
-        English = english;
-        Korean = korean;
-    }
 }

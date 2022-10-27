@@ -3,14 +3,23 @@ package com.example.gamecall;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.media.ExifInterface;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,6 +39,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +57,7 @@ import org.w3c.dom.Comment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,7 +80,7 @@ public class talk extends AppCompatActivity {
     String email;
     Bitmap immgg;
     Context context;
-    ConstraintLayout imgchoice;
+    ConstraintLayout imgchoice, emoticon;
     LinearLayout call;
     Button gall, camera;
     FirebaseDatabase database;
@@ -78,7 +89,16 @@ public class talk extends AppCompatActivity {
     int first =0;
     int notify =0;
     private File tempFile;
+    Button emo1, emo2, emo3;
      ImageView imgv, preimg;
+    private String imageFilePath;
+    private Uri photoUri;
+    String sendText;
+    String sendEmail;
+    String iimmgg,iimmgg2,iimmgg3;
+    private String destinationUid;
+
+
     private static final int PICK_FROM_GALLERY = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +107,7 @@ public class talk extends AppCompatActivity {
 
         tedPermission();
 
+        startService();
 
         getSupportActionBar().setTitle("대화");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
@@ -97,11 +118,12 @@ public class talk extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
+destinationUid= getIntent().getStringExtra("destinationUID");
 
 
         gall = (Button)findViewById(R.id.gall);
         camera = (Button)findViewById(R.id.camera);
-
+         emoticon =(ConstraintLayout)findViewById(R.id.emoticon);
          imgchoice =(ConstraintLayout)findViewById(R.id.imagechoose);
           call = (LinearLayout)findViewById(R.id.callimage) ;
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -129,6 +151,109 @@ public class talk extends AppCompatActivity {
         email = sharedPref.getString("email","");
         notify = sharedPref.getInt("mesnotify", 0);
 
+        //어셋매니저
+        AssetManager am = getResources().getAssets() ;
+        InputStream is = null ;
+        InputStream is2 = null ;
+        InputStream is3 = null ;
+
+
+        try {
+            // 애셋 폴더에 저장된 field.png 열기.
+            is = am.open("emo1.png") ;
+            is2 = am.open("emo2.png");
+            is3 = am.open("emo3.png");
+
+            // 입력스트림 is를 통해 field.png 을 Bitmap 객체로 변환.
+            Bitmap bm = BitmapFactory.decodeStream(is) ;
+            Bitmap bm2= BitmapFactory.decodeStream(is2) ;
+            Bitmap bm3 = BitmapFactory.decodeStream(is3) ;
+
+            iimmgg = bitmapstring(bm);
+            iimmgg2 = bitmapstring(bm2);
+            iimmgg3 = bitmapstring(bm3);
+
+
+            is.close() ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (is != null) {
+            try {
+                is.close() ;
+            } catch (Exception e) {
+                e.printStackTrace() ;
+            }
+        }
+
+
+        //이모티콘눌렀을때 처리
+        Button emoticonBTN = (Button) findViewById(R.id.ebutton);
+        emoticonBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(emoticon.getVisibility()==View.GONE){
+                    emoticon.setVisibility(View.VISIBLE);
+                }else{
+                    emoticon.setVisibility(View.GONE);
+                }
+
+                Button emo1 = (Button)findViewById(R.id.emot1);
+                emo1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Calendar c =Calendar.getInstance();
+                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        String datetime = dateformat.format(c.getTime());
+                        DatabaseReference myRef = database.getReference("message").child(datetime);
+                        Hashtable<String, String> numbers
+                                = new Hashtable<String, String>();
+                        numbers.put("email", email);
+                        numbers.put("image", iimmgg);
+                        myRef.setValue(numbers);
+
+                    }
+                });
+//이모티콘2
+                Button emo2 = (Button)findViewById(R.id.emot2);
+                emo2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Calendar c =Calendar.getInstance();
+                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        String datetime = dateformat.format(c.getTime());
+                        DatabaseReference myRef = database.getReference("message").child(datetime);
+                        Hashtable<String, String> numbers
+                                = new Hashtable<String, String>();
+                        numbers.put("email", email);
+                        numbers.put("image", iimmgg2);
+                        myRef.setValue(numbers);
+
+                    }
+                });
+//이모티콘3
+                Button emo3 = (Button)findViewById(R.id.emot3);
+                emo3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Calendar c =Calendar.getInstance();
+                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        String datetime = dateformat.format(c.getTime());
+                        DatabaseReference myRef = database.getReference("message").child(datetime);
+                        Hashtable<String, String> numbers
+                                = new Hashtable<String, String>();
+                        numbers.put("email", email);
+                        numbers.put("image", iimmgg3);
+                        myRef.setValue(numbers);
+
+                    }
+                });
+
+            }
+        });
+
+
 //+버튼클릭시 나오는창
         Button buttonGallery = (Button)findViewById(R.id.sendimg);
         buttonGallery.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +278,7 @@ public class talk extends AppCompatActivity {
 
                         call.setVisibility(View.GONE);
                         imgchoice.setVisibility(View.VISIBLE);
-                        dispatchTakePictureIntent();
+                        sendTakePhotoIntent();
                        // takePhoto();
 
                     }
@@ -173,6 +298,7 @@ public class talk extends AppCompatActivity {
 
 
 
+
         //하위처리
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -182,40 +308,47 @@ public class talk extends AppCompatActivity {
                 // A new comment has been added, add it to the displayed list
 
 
+
                 Chat chat = dataSnapshot.getValue(Chat.class);
                //immgg = stringbitmap(imagewill);
                 String commentKey = dataSnapshot.getKey();
-                String sendEmail = chat.getEmail();
-                String sendText = chat.getText();
+                 sendEmail = chat.getEmail();
+                 sendText = chat.getText();
                 String sendImage = chat.getImage();
+
+
+
+
 
 //                Log.d(TAG, "이메일: "+sendEmail);
 //                Log.d(TAG, "텍스트: "+sendText);
               //  Log.d(TAG, "이미지: "+sendImage);
                 chatArrayList.add(chat);
                 mAdapter.notifyDataSetChanged();
-                if(notify==1) {
-
-                    if (email.equals(sendEmail)) {
-
-
-                    } else {
-
-                        SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("lasttext", sendText);
-                        editor.commit();
-
-                   if(isAppRunning(talk.this))   {
-
-                   }else {
-                       startService();
-                   }
 
 
 
+
+
+                    if (notify == 1) {
+
+                        if (email.equals(sendEmail)) {
+
+
+                        } else {
+
+
+                            SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("lasttext", sendText);
+                            editor.commit();
+
+
+
+                        }
                     }
-                }
+
+
 
                 // ...
             }
@@ -223,9 +356,11 @@ public class talk extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
                 Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
+                Log.d(TAG, "온차일드체인지 이애는 언제뜨냥?: ");
 
                 // A comment has changed, use the key to determine if we are displaying this
                 // comment and if so displayed the changed comment.
+
 
 
                 // ...
@@ -269,6 +404,8 @@ public class talk extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 imgcancel.setVisibility(View.INVISIBLE);
                 preimg.setImageBitmap(null);
                  sendtext = inputtext.getText().toString();
@@ -278,15 +415,13 @@ public class talk extends AppCompatActivity {
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                 String datetime = dateformat.format(c.getTime());
 
-
-
-
                 DatabaseReference myRef = database.getReference("message").child(datetime);
 
                 Hashtable<String, String> numbers
                         = new Hashtable<String, String>();
                 numbers.put("email", email);
-                numbers.put("text", sendtext);
+
+                    numbers.put("text", sendtext);
 
                 if(isIMG==1){
                     numbers.put("image", imagewill);
@@ -294,9 +429,12 @@ public class talk extends AppCompatActivity {
                    // Log.d(TAG, "이미지보내지나확인: "+imagewill);
                 }
 
+
+
                 myRef.setValue(numbers);
                 imgchoice.setVisibility(View.GONE);
-                inputtext.setText("");
+                inputtext.setText(null);
+
 
 
 
@@ -368,7 +506,7 @@ public class talk extends AppCompatActivity {
     public void startService() {
 
         Intent intent = new Intent(this, ExampleService.class);
-
+        intent.setAction("message");
         startService(intent);
     }
 
@@ -431,6 +569,7 @@ public class talk extends AppCompatActivity {
                 imgcancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        imagewill="";
                         preimg.setImageBitmap(null);
                         imgcancel.setVisibility(View.GONE);
                         imgchoice.setVisibility(View.GONE);
@@ -444,10 +583,28 @@ public class talk extends AppCompatActivity {
 
 
         }else if(requestCode==PICK_FROM_CAMERA){
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ((ImageView)findViewById(R.id.preimg)).setImageBitmap(imageBitmap);
-            imagewill = bitmapstring(imageBitmap);
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
+            imagewill = bitmapstring(bitmap);
+            ExifInterface exif = null;
+
+            try {
+                exif = new ExifInterface(imageFilePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int exifOrientation;
+            int exifDegree;
+
+            if (exif != null) {
+                exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                exifDegree = exifOrientationToDegrees(exifOrientation);
+            } else {
+                exifDegree = 0;
+            }
+
+            ((ImageView)findViewById(R.id.preimg)).setImageBitmap(rotate(bitmap, exifDegree));
+
             isIMG=1;
 
         }
@@ -461,16 +618,7 @@ public class talk extends AppCompatActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, PICK_FROM_CAMERA);
-            Button cancel = (Button)findViewById(R.id.imgcancel);
-            cancel.setVisibility(View.VISIBLE);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    preimg.setImageBitmap(null);
-                    imgchoice.setVisibility(View.GONE);
 
-                }
-            });
 
 
 
@@ -521,6 +669,70 @@ public class talk extends AppCompatActivity {
 
         return false;
     }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "TEST_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,      /* prefix */
+                ".jpg",         /* suffix */
+                storageDir          /* directory */
+        );
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
+    private void sendTakePhotoIntent() {
+
+        Button cancel = (Button)findViewById(R.id.imgcancel);
+        cancel.setVisibility(View.VISIBLE);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preimg.setImageBitmap(null);
+                imagewill="";
+                imgchoice.setVisibility(View.GONE);
+
+            }
+        });
+
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(takePictureIntent, PICK_FROM_CAMERA);
+            }
+        }
+    }
+
+    private int exifOrientationToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
+    }
+
+    private Bitmap rotate(Bitmap bitmap, float degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+
 
 
 

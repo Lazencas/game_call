@@ -29,6 +29,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,12 +52,13 @@ public class profile extends AppCompatActivity {
     int REQUEST_EXTERNAL_STORAGE_PERMISSION = 1002;
     Bitmap bitimg;
     TextView eemm;
+    String image1;
     String email;
     ImageView img;
     File localFile;
     FirebaseDatabase database;
     private StorageReference mStorageRef;
-
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class profile extends AppCompatActivity {
         });
 
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -222,13 +226,17 @@ eemm.setText(email);
                String namee = ((EditText)findViewById(R.id.usernicname)).getText().toString();
                String gamee = ((EditText)findViewById(R.id.usergame)).getText().toString();
 
-                DatabaseReference ref = database.getReference("profile");
+                DatabaseReference ref = database.getReference("users").child(user.getUid());
+//                DatabaseReference ref = database.getReference("users").child("email").child("profile");
                 ref.addChildEventListener(childEventListener);
 
-                DatabaseReference myRef = database.getReference("profile");
+                DatabaseReference myRef = database.getReference("users").child(user.getUid());
+//                DatabaseReference myRef = database.getReference("users").child("email").child("profile");
 
                 Hashtable<String, String> profiles
                         = new Hashtable<String, String>();
+                profiles.put("image", image1);
+                profiles.put("email", email);
                 profiles.put("name", namee);
                 profiles.put("game", gamee);
 
@@ -237,6 +245,16 @@ eemm.setText(email);
 
                 finish();
 
+                SharedPreferences sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("nicname", namee);
+                editor.putString("game", gamee);
+                editor.commit();
+
+
+
+                Toast.makeText(profile.this, "프로필변경 성공!",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -256,7 +274,7 @@ eemm.setText(email);
                 img.setImageBitmap(bitmap);
 
                 bitimg = bitmap;
-                String image1 = bitmapstring(bitimg);
+                 image1 = bitmapstring(bitimg);
                 Log.d(TAG, "비트맵저장되는거맞나?: "+image1);
                 SharedPreferences sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
